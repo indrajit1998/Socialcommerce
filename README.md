@@ -1,2 +1,3 @@
-# Socialcommerce
-Social &amp; Live commerce 
+Install VS Code
+Install Prettier extension
+Install ESLint extension
