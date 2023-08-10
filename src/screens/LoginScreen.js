@@ -27,7 +27,7 @@ const AppleSignInButton = () => {
   );
 };
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [activeButton, setActiveButton] = useState("login");
   const [secureEntry, setSecureEntry] = useState(true);
   const [email, setEmail] = useState("");
@@ -87,7 +87,7 @@ const LoginScreen = () => {
             </View>
           </View>
 
-          <TouchableOpacity style = {styles.loginStyle}>
+          <TouchableOpacity style = {styles.loginStyle} onPress={() => navigation.navigate("HomeStack")}>
             {activeButton == "login"? <Text>Login</Text> : <Text>Sign Up</Text>}
           </TouchableOpacity>
 
