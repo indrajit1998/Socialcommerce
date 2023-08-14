@@ -5,9 +5,7 @@ const Post = (props) => {
   const { backgroundImageUri, profileImageUri, username, followersCount, isFollowing, onFollowPress } = props;
 
   return (
-    <ImageBackground imageStyle={{borderRadius:15, shadowColor: '#202020',
-    shadowOffset: {width: 0, height: 0},
-    shadowRadius: 5,}} source={{ uri: backgroundImageUri }} style={styles.backgroundImage}>
+    <ImageBackground imageStyle={styles.imageStyle} source={{ uri: backgroundImageUri }} style={styles.backgroundImage}>
       <View style={styles.container}>
         <View style={styles.profileInfo}>
           <View style = {styles.profileBox}>
@@ -27,10 +25,16 @@ const Post = (props) => {
 };
 
 const styles = StyleSheet.create({
+  imageStyle:{
+    borderRadius:15, 
+    shadowColor: '#202020',
+    shadowOffset: {width: 0, height: 0},
+    shadowRadius: 5
+  },
   backgroundImage: {
     width: '100%',
-    height: 600, // Set the desired height for the background image
-    resizeMode: 'cover', // Adjust the image resizing mode as needed
+    height: 600, 
+    resizeMode: 'cover', 
     marginBottom: 40,
   },
   container: {
