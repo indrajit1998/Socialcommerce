@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, ImageBackground, Dimensions, TouchableOpacity,Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, Image } from "react-native";
 import { TextInput } from 'react-native-paper';
+import * as Animatable from 'react-native-animatable'; // Import from react-native-animatable
 const { height } = Dimensions.get("window");
-
 const GoogleSignInButton = () => {
   return (
     <TouchableOpacity style={styles.signInButton} onPress={() => console.log("signed in with google")} >
@@ -27,17 +27,29 @@ const AppleSignInButton = () => {
   );
 };
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
   const [activeButton, setActiveButton] = useState("login");
   const [secureEntry, setSecureEntry] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [animateIn, setAnimateIn] = useState(false); // State for controlling animation
 
   const togglePasswordVisibility = () => {
     setSecureEntry(!secureEntry)
   };
 
+  useEffect(() => {
+    // Trigger the animation once the component is mounted
+    setAnimateIn(true);
+  }, []);
+
   return (
+    <View style={{flex:1}} >
+      <Animatable.View // Apply the animation to the entire component
+      animation={animateIn ? "slideInRight" : ""} // You can use any animation from the library
+      duration={500}
+      style={{ flex: 1 }}
+    >
     <ImageBackground source={require('../../assets/placeholderImage3.jpg')} style={{ flex: 1 }}>
       <View style={styles.container}>
         <View style={[styles.backgroundImage, { height: 0.4 * height }]} />
@@ -111,6 +123,8 @@ const LoginScreen = ({navigation}) => {
         </View>
       </View>
     </ImageBackground>
+    </Animatable.View>
+    </View>
   );
 };
 

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
+import * as Animatable from 'react-native-animatable'; // Import from react-native-animatable
 
 const images = [
   require('../../assets/placeholderImage1.jpg'),
@@ -13,42 +14,65 @@ const imageTexts = [
   "Enjoy the experience of shopping from home with out convenient delivery service!",
 ];
 
-const LandingScreen = ({navigation}) => {
+const LandingScreen = ({ navigation }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [exitAnimation, setExitAnimation] = useState(false);
 
-  const handleContinue = (navigation) => {
-    if (currentImageIndex == 2) {
-      navigation.navigate("Login");
-    } else if (currentImageIndex < images.length - 1) {
+  const handleContinue = () => {
+    if (currentImageIndex === images.length - 1) {
+      setExitAnimation(true); // Trigger exit animation
+      setTimeout(() => {
+        navigation.navigate("Login");
+      }, 500); // Wait for exit animation to complete
+    } else {
       setCurrentImageIndex(currentImageIndex + 1);
     }
   };
 
+  useEffect(() => {
+    // Reset exit animation state when the component mounts
+    return () => {
+      setExitAnimation(false);
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
-      <ImageBackground source={images[currentImageIndex]} style={styles.backgroundImage}>
-        <View style={styles.topBarView}>
-          <View style={[styles.indicator, currentImageIndex === 0 && styles.activeIndicator]} />
-          <View style={[styles.indicator, currentImageIndex === 1 && styles.activeIndicator]} />
-          <View style={[styles.indicator, currentImageIndex === 2 && styles.activeIndicator]} />
-        </View>
+      <Animatable.View
+        animation="slideInRight" // You can use any animation from the library
+        duration={500}
+        style={styles.backgroundImageContainer}
+      >
+        <ImageBackground
+          source={images[currentImageIndex]}
+          style={styles.backgroundImage}
+        >
+          <View style={styles.topBarView}>
+            {images.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.indicator,
+                  currentImageIndex === index && styles.activeIndicator
+                ]}
+              />
+            ))}
+          </View>
 
-        <Text font style={{fontSize:42, marginTop:20, color:"white", alignSelf:"center" }} >
-          ASCE
-        </Text>
+          <Text font style={{ fontSize: 42, marginTop: 20, color: "white", alignSelf: "center" }}>
+            ASCE
+          </Text>
 
-        <View style={styles.viewStyle}>
-
-          <Text style={styles.imageText}>{imageTexts[currentImageIndex]}</Text>
-
-          <TouchableOpacity style={styles.continueButton} onPress={() => handleContinue(navigation)}>
-            <Text style={styles.buttonText}>
-              {currentImageIndex < images.length - 1 ? "Continue" : "Get Started"}
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-      </ImageBackground>
+          <View style={styles.viewStyle}>
+            <Text style={styles.imageText}>{imageTexts[currentImageIndex]}</Text>
+            <TouchableOpacity style={styles.continueButton} onPress={handleContinue}>
+              <Text style={styles.buttonText}>
+                {currentImageIndex < images.length - 1 ? "Continue" : "Get Started"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </Animatable.View>
     </View>
   );
 };
@@ -102,7 +126,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   activeIndicator: {
-    backgroundColor: "white", 
+    backgroundColor: "white",
+  },
+  backgroundImageContainer: {
+    flex: 1,
   },
 });
 
