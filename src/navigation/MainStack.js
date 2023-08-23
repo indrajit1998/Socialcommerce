@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome'; // You can use a different icon library if you prefer
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import LoginScreen from "../screens/LoginScreen";
 import LandingScreen from "../screens/LandingScreen";
@@ -14,8 +14,8 @@ import HomeScreen from '../screens/HomeScreen';
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const CustomIcon = ({ name, color,size }) => (
-  <Icon name={name} color={color} size={24} />
+const CustomIcon = ({ name, color, size }) => (
+  <Icon name={name} color={color} size={size} />
 );
 
 const HomeStack = () => {
@@ -31,7 +31,7 @@ const HomeStack = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <CustomIcon name="home" color={color} />
+            <CustomIcon name="home" color={color} size={24} />
           ),
         }}
       />
@@ -40,7 +40,7 @@ const HomeStack = () => {
         component={SearchScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <CustomIcon name="search" color={color} />
+            <CustomIcon name="search" color={color} size={24} />
           ),
         }}
       />
@@ -49,7 +49,7 @@ const HomeStack = () => {
         component={PostScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <CustomIcon name="plus" color={color}/>
+            <CustomIcon name="plus" color={color} size={36} />
           ),
         }}
       />
@@ -58,7 +58,7 @@ const HomeStack = () => {
         component={ShopScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <CustomIcon name="shopping-cart" color={color} />
+            <CustomIcon name="shopping-cart" color={color} size={24} />
           ),
         }}
       />
@@ -67,7 +67,7 @@ const HomeStack = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <CustomIcon name="user" color={color} />
+            <CustomIcon name="user" color={color} size={24} />
           ),
         }}
       />

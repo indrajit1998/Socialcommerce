@@ -3,9 +3,12 @@ import { SafeAreaView, Text, View, StyleSheet, ScrollView, Image,TouchableOpacit
 import { users } from "../dummyData/Users";
 import Post from "../components/Post";
 import Icon from "react-native-vector-icons/FontAwesome";
+import * as Animatable from 'react-native-animatable';
 
 const HomeScreen = () => {
+
   return (
+    <Animatable.View animation="fadeIn" duration={500} style={{ flex: 1 }} >
     <SafeAreaView style={styles.HomeView}>
       <View style={styles.profileView}>
         <View style={styles.profileBox}>
@@ -45,6 +48,7 @@ const HomeScreen = () => {
         ))}
       </ScrollView>
     </SafeAreaView>
+    </Animatable.View>
   );
 };
 

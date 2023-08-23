@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
 import * as Animatable from 'react-native-animatable'; // Import from react-native-animatable
 
@@ -17,15 +17,21 @@ const imageTexts = [
 const LandingScreen = ({ navigation }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [exitAnimation, setExitAnimation] = useState(false);
+  const backgroundImageRef = useRef(null);
 
   const handleContinue = () => {
     if (currentImageIndex === images.length - 1) {
-      setExitAnimation(true); // Trigger exit animation
+      setExitAnimation(true);
       setTimeout(() => {
         navigation.navigate("Login");
-      }, 500); // Wait for exit animation to complete
+      }, 500);
     } else {
-      setCurrentImageIndex(currentImageIndex + 1);
+      setExitAnimation(true);
+      setTimeout(() => {
+        setCurrentImageIndex(currentImageIndex + 1);
+        backgroundImageRef.current.fadeIn(500);
+        setExitAnimation(false);
+      }, 500);
     }
   };
 
@@ -39,8 +45,9 @@ const LandingScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Animatable.View
-        animation="slideInRight" // You can use any animation from the library
-        duration={500}
+        animation={exitAnimation ? "fadeOut" : "fadeIn"} // Apply fade out when exitAnimation is true
+        duration={300}
+        ref={backgroundImageRef}
         style={styles.backgroundImageContainer}
       >
         <ImageBackground
@@ -71,7 +78,7 @@ const LandingScreen = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </ImageBackground>
+          </ImageBackground>
       </Animatable.View>
     </View>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import { View, Text, StyleSheet, ImageBackground, Dimensions, TouchableOpacity, Image } from "react-native";
 import { TextInput } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable'; // Import from react-native-animatable
@@ -32,21 +32,27 @@ const LoginScreen = ({ navigation }) => {
   const [secureEntry, setSecureEntry] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [animateIn, setAnimateIn] = useState(false); // State for controlling animation
+  const loginScreenRef = useRef(null);
 
   const togglePasswordVisibility = () => {
     setSecureEntry(!secureEntry)
   };
 
+  const handleLoginPress = () => {
+    loginScreenRef.current.fadeOut(500).then(() => {
+      navigation.navigate("HomeStack");
+    });
+  };
+
   useEffect(() => {
-    // Trigger the animation once the component is mounted
-    setAnimateIn(true);
+    // Perform any initial setup here
   }, []);
 
   return (
     <View style={{flex:1}} >
-      <Animatable.View // Apply the animation to the entire component
-      animation={animateIn ? "slideInRight" : ""} // You can use any animation from the library
+      <Animatable.View 
+      ref={loginScreenRef}
+      animation="bounceInRight"
       duration={500}
       style={{ flex: 1 }}
     >
@@ -99,7 +105,7 @@ const LoginScreen = ({ navigation }) => {
             </View>
           </View>
 
-          <TouchableOpacity style = {styles.loginStyle} onPress={() => navigation.navigate("HomeStack")}>
+          <TouchableOpacity style = {styles.loginStyle} onPress={handleLoginPress}>
             {activeButton == "login"? <Text>Login</Text> : <Text>Sign Up</Text>}
           </TouchableOpacity>
 
